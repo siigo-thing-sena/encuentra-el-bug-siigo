@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>sockets</title>
+	<link rel="stylesheet" href="./css/Bootstrap/bootstrap.min.css" />
+</head>
+<style>
+	[v-cloak] {
+		display: none;
+	}
+
+	ul {
+		list-style: none;
+	}
+</style>
+
+<body>
+	<div v-cloak id="app" class="container">
+		<p>
+			Server Status
+			<span id="lblOnline" v-text="serverStatus"
+				:class="[serverStatus === 'online' ? 'text-success':'text-danger']"></span>
+		</p>
+
+		<div>
+			<h4>encuentra el bug</h4>
+				
+				
+				<button type="button" @click="createRoom" class="btn btn-sm btn-info ml-1" />Crear Sala</button>
+				<input type="text" v-model="room">
+				<button type="button" @click="createRoom" class="btn btn-sm btn-info ml-1" />Unirse Sala</button>
+				<button type="button" @click="mensajeSala" class="btn btn-sm btn-info ml-1" />mensaje Sala</button>
+		</div>
+	</div>
+	</div>
+
+	<script src="./socket.io/socket.io.js"></script>
+	<script src="./js/VueCDN/vue.js"></script>
+	<script src="./js/socket-client.js"></script>
+</body>
+
+</html>
