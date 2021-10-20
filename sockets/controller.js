@@ -1,4 +1,4 @@
-import { data } from '../app.js'
+import {rooms, Quien, Modulo, error, turno} from '../app.js'
 
 const socketController = (socket) => {
   console.log("cliente conectado ", socket.id);
