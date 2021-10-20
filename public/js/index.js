@@ -9,6 +9,7 @@ const app = new Vue({
 		rooms: [],
 		room: '',
 		turno: 0,
+		jugadores: 0,
 		show: 'principal'
 	},
 	created() {
@@ -18,6 +19,10 @@ const app = new Vue({
 
 		socket.on("disconnect", () => {
 			console.log("Desconectado");
+		});
+		socket.on("nuevo-jugador", (data) => {
+			this.jugadores = data.jugadores
+			this.rooms = data.rooms
 		});
 		socket.on("mensaje-sala", (payload) => {
 			console.log('mensaje desde sala', payload);
@@ -29,21 +34,34 @@ const app = new Vue({
 		},
 		createRoom() {
 			const randomNumber = Math.floor(100000 + Math.random() * 900000)
-			const room = randomNumber.toString(16)
-			socket.emit('create-join-room', room, (data) => {
-				console.log(data)
+			this.room = randomNumber.toString(16)
+			let roomData = {
+				room: this.room,
+				jugador: 1
+			}
+			socket.emit('create-join-room', roomData, (data) => {
+				this.jugadores = data.jugadores
+				this.rooms = data.rooms
+				this.turno = data.turno
 			});
-
-			socket.on("test", () => {
-				console.log('mensaje para sala');
-			});
+			this.show = "salaCreada"
 		},
 		joinRoom() {
-			let room = this.room;
-
-			socket.emit('create-join-room', room, (data) => {
-				console.log(data)
+			let roomData = {
+				room: this.room,
+				jugador: 1
+			}
+			socket.emit('create-join-room', roomData, (data) => {
+				this.jugadores = data.jugadores
+				this.rooms = data.rooms
+				this.turno = data.turno
 			});
+			this.show = "salaCreada"
 		},
 	},
+	computed: {
+		faltanJugadores(){
+			return this.jugadores < 4 ? false : true
+		}
+	}
 });

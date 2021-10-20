@@ -18,7 +18,7 @@
             <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
             <div class="card-body">
                 <h2 class="card-title">Empieza a jugar</h2>
-                <button href="#" class="btn btn-info">Crear sala</button>
+                <button href="#" class="btn btn-info" @click="createRoom">Crear sala</button>
                 <button href="#" class="btn btn-info" @click = "show = 'join'">Unirse a sala</button>
             </div>
         </div>
@@ -27,9 +27,25 @@
             <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
             <div class="card-body">
                 <h2 class="card-title">Ingresa el codigo de la sala</h2>
-                <input type="text">
-                <button href="#" class="btn btn-info" @click="">Unirse a sala</button>
+                <input type="text" v-model="room">
+                <button href="#" class="btn btn-info" @click="joinRoom">Unirse a sala</button>
+                <button href="#" class="btn btn-dark" @click="show = 'principal'"> atras </button>
             </div>
+        </div>
+
+        <div v-if="show === 'salaCreada'" class="card text-center mt-5 col d-flex justify-content-center">
+            <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
+            <div class="card-body">
+                <h2 class="card-title">comparte el codigo de la sala con amigos: {{room}}</h2>
+                <p>esperemos que sean 4 jugadores</p>
+                <p>jugadores conectados: {{jugadores}}</p>
+                <p>turno: {{turno}}</p>
+                <button href="#" :disabled="faltanJugadores" class="btn btn-dark" @click="show = 'empezarPartida'">Empezar partida</button>
+            </div>
+        </div>
+
+        <div v-if="show === 'empezarPartida'" class="card text-center mt-5 col d-flex justify-content-center">
+            <img src="assets/TrollFace.jpg" class="" alt="logo-sena">
         </div>
 
     </div>
