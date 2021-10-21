@@ -11,42 +11,122 @@
 </head>
 
 <body>
+    <div class="container-table">
+        <table class="table caption-top">
+            <caption>List of users</caption>
+            <thead>
+              <tr class="table-primary">
+                <th scope="col">#</th>
+                <th scope="col" class="table-primary">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table-secondary">
+                <th scope="row" class="table-primary">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+              </tr>
+              <tr>
+                <th scope="row" class="table-primary">3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
     <div class="container" id="app">
         <h1 class="text-center">Encuentra el bug</h1>
+            <div class="container-inicio">
+                <div v-if="show === 'principal'" class="card text-center mt-5 col d-flex justify-content-center" id="container-primary">
+                    <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
+                    <div class="card-body">
+                        <h2 class="card-title">Empieza a jugar</h2>
+                        <button href="#" class="btn btn-info" @click="createRoom">Crear sala</button>
+                        <button href="#" class="btn btn-info" @click = "show = 'join'">Unirse a sala</button>
+                    </div>
+                </div>
+        
+                <div v-if="show === 'join'" class="card text-center mt-5 col d-flex justify-content-center" id="container-primary">
+                    <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
+                    <div class="card-body">
+                        <h2 class="card-title">Ingresa el codigo de la sala</h2>
+                        <input type="text" v-model="room">
+                        <button href="#" class="btn btn-info" @click="joinRoom">Unirse a sala</button>
+                        <button href="#" class="btn btn-dark" @click="show = 'principal'"> atras </button>
+                    </div>
+                </div>
+        
+                <div v-if="show === 'salaCreada'" class="card text-center mt-5 col d-flex justify-content-center" id="container-primary">
+                    <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
+                    <div class="card-body">
+                        <h2 class="card-title">comparte el codigo de la sala con amigos: {{room}}</h2>
+                        <p>esperemos que sean 4 jugadores</p>
+                        <p>jugadores conectados: {{jugadores}}</p>
+                        <p>turno: {{turno}}</p>
+                        <button href="#" :disabled="faltanJugadores" class="btn btn-dark" @click="show = 'empezarPartida'">Empezar partida</button>
+                    </div>
+                </div>
+        
+                <div v-if="show === 'empezarPartida'" class="card text-center mt-5 col d-flex justify-content-center" id="container-primary">
+                    <br>
+                    <button href="#" class="btn btn-dark w-50" @click="show = 'pregunta'"> Preguntar </button>
+                    <button href="#" class="btn btn-dark w-50" @click="show = 'acusar'"> Acusar</button>
+                </div>
 
-        <div v-if="show === 'principal'" class="card text-center mt-5 col d-flex justify-content-center">
-            <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
-            <div class="card-body">
-                <h2 class="card-title">Empieza a jugar</h2>
-                <button href="#" class="btn btn-info" @click="createRoom">Crear sala</button>
-                <button href="#" class="btn btn-info" @click = "show = 'join'">Unirse a sala</button>
+                <!-- pregunta -->
+                <div v-if="show === 'pregunta'" class="card text-center mt-5 col d-flex justify-content-center" id="container-primary">
+                    <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
+                    <div class="card-body">
+                        <h1>Aqui estara la pregunta</h1>
+                        <br>
+                        <button href="#" class="btn btn-dark w-50" @click="show = 'empezarPartida'"> atras </button>
+                    </div>
+                </div>
+
+                <!-- Acusacion -->
+                <div v-if="show === 'acusar'" class="card text-center mt-5 col d-flex justify-content-center" id="container-primary">
+                    <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
+                    <div class="card-body">
+                        <h2 class="card-title">Seleccione su Acusacion</h2>
+                        <div class="body-acusacion">
+                            <p class="p">El programador que cometio el error Fue 
+                                <select name="Hola" id="seleccion" class="form-select" aria-label="Default select example">
+                                <option value="select">Seleccione su Personaje</option>
+                                <option value="0">Pedro</option>
+                                <option value="1">Juan</option>
+                                <option value="2">Maria</option>
+                                <option value="3">Carlos</option>
+                            </select>
+                            en el modulo: 
+                            <select name="Hola" id="seleccion" class="form-select" aria-label="Default select example">
+                                <option value="select">Seleccione Un modulo</option>
+                                <option value="0">estadistica</option>
+                                <option value="1">algo al azar</option>
+                            </select>
+                            con el error
+                            <select name="Hola" id="seleccion" class="form-select" aria-label="Default select example">
+                                <option value="select">Seleccione un error</option>
+                                <option value="0">404</option>
+                                <option value="1">syntax error</option>
+                            </select>
+                            </p>
+                        </div>
+                        <br>
+                        <button href="#" class="btn btn-info" @click="EnviarDatos">Enviar mi Acusacion</button>
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div v-if="show === 'join'" class="card text-center mt-5 col d-flex justify-content-center">
-            <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
-            <div class="card-body">
-                <h2 class="card-title">Ingresa el codigo de la sala</h2>
-                <input type="text" v-model="room">
-                <button href="#" class="btn btn-info" @click="joinRoom">Unirse a sala</button>
-                <button href="#" class="btn btn-dark" @click="show = 'principal'"> atras </button>
-            </div>
-        </div>
-
-        <div v-if="show === 'salaCreada'" class="card text-center mt-5 col d-flex justify-content-center">
-            <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
-            <div class="card-body">
-                <h2 class="card-title">comparte el codigo de la sala con amigos: {{room}}</h2>
-                <p>esperemos que sean 4 jugadores</p>
-                <p>jugadores conectados: {{jugadores}}</p>
-                <p>turno: {{turno}}</p>
-                <button href="#" :disabled="faltanJugadores" class="btn btn-dark" @click="show = 'empezarPartida'">Empezar partida</button>
-            </div>
-        </div>
-
-        <div v-if="show === 'empezarPartida'" class="card text-center mt-5 col d-flex justify-content-center">
-            <img src="assets/TrollFace.jpg" class="" alt="logo-sena">
-        </div>
+        
 
     </div>
     <script src="./socket.io/socket.io.js"></script>
