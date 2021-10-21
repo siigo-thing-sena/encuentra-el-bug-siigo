@@ -24,7 +24,7 @@
 
 .container-nv {
     background: #ffff;
-    height: 210vh;
+    height: fit-content;
     max-width: 85%;
     margin: auto;
     border-radius: 40px;
@@ -43,7 +43,7 @@
     text-align: center;
 }
 
-;
+
 
 /* input  */
 
