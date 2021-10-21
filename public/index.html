@@ -6,98 +6,127 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encuentra el bug</title>
-    <link rel="stylesheet" href="./css/Bootstrap/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="./css/index.css">
 </head>
 
 <body>
     <div class="container " id="app">
+        <h1 class="text-center">Encuentra el bug</h1>
+        <p v-if="show === 'juego' || show === 'preguntar' ">turno: {{turno}}</p>
+        <div class="row">
+            <div class="container-primary">
+                <div class="container-inicio">
+                    <div v-if="show === 'principal'" class="card text-center mt-5 col d-flex justify-content-center"
+                        id="container-primary">
 
-        <div class="container-primary">
-            <h1 class="text-center">Encuentra el bug</h1>
-            <div class="container-inicio">
-                <div v-if="show === 'principal'" class="card text-center mt-5 col d-flex justify-content-center"
-                    id="container-primary">
-                    <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
-                    <div class="card-body">
-                        <h2 class="card-title">Empieza a jugar</h2>
-                        <button href="#" class="btn btn-info" @click="createRoom">Crear sala</button>
-                        <button href="#" class="btn btn-info" @click="show = 'join'">Unirse a sala</button>
-                    </div>
-                </div>
-
-                <div v-if="show === 'join'" class="card text-center mt-5 col d-flex justify-content-center"
-                    id="container-primary">
-                    <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
-                    <div class="card-body">
-                        <h2 class="card-title">Ingresa el codigo de la sala</h2>
-                        <input type="text" v-model="room">
-                        <button href="#" class="btn btn-info" @click="joinRoom">Unirse a sala</button>
-                        <button href="#" class="btn btn-dark" @click="show = 'principal'"> atras </button>
-                    </div>
-                </div>
-
-                <div v-if="show === 'salaCreada'" class="card text-center mt-5 col d-flex justify-content-center"
-                    id="container-primary">
-                    <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
-                    <div class="card-body">
-                        <h2 class="card-title">comparte el codigo de la sala con amigos: {{room}}</h2>
-                        <p>esperemos que sean 4 jugadores</p>
-                        <p>jugadores conectados: {{jugadores}}</p>
-                        <p>turno: {{turno}}</p>
-                        <button href="#" :disabled="faltanJugadores" class="btn btn-dark"
-                            @click="show = 'empezarPartida'">Empezar partida</button>
-                    </div>
-                </div>
-
-                <div v-if="show === 'empezarPartida'" class="card text-center mt-5 col d-flex justify-content-center"
-                    id="container-primary">
-                    <br>
-                    <button href="#" class="btn btn-dark" @click="show = 'pregunta'; option = 'preguntar'"> Preguntar </button>
-                    <button href="#" class="btn btn-dark" @click="show = 'pregunta'; option = 'acusar'"> Acusar</button>
-                </div>
-
-                <!-- preguntar o acusar -->
-                <div v-if="show === 'pregunta'" class="card text-center mt-5 col d-flex justify-content-center"
-                    id="container-primary">
-                    <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
-                    <div class="card-body">
-                        <h2 class="card-title">Seleccione su Acusacion</h2>
-                        <div class="body-acusacion">
-                            <h1 class="h1-module">El programador que cometio el error Fue:</h1>
-                            <select v-model="pregunta.quien" id="seleccion" class="container form-select"
-                                aria-label="Default select example">
-                                <option selected disabled>Seleccione su Personaje</option>
-                                <option v-for="(item, index) in quien" :value="item">{{item}}</option>
-                            </select>
-                            <h1 class="h1-module">en el modulo:</h1>
-                            <select v-model="pregunta.modulo" id="seleccion" class="container form-select"
-                                aria-label="Default select example">
-                                <option selected disabled>Seleccione Un modulo</option>
-                                <option v-for="(item, index) in modulo" :value="item">{{item}}</option>
-
-                            </select>
-                            <h1 class="h1-module">con el error</h1>
-                            <select v-model="pregunta.error" id="seleccion" class="container form-select"
-                                aria-label="Default select example">
-                                <option selected disabled>Seleccione un error:</option>
-                                <option v-for="(item, index) in error" :value="item">{{item}}</option>
-                            </select>
-                            <br>
-                            <br>
-                            <button v-if="option === 'preguntar'" class="btn btn-info"
-                                @click="preguntar">Preguntar</button>
-                            <button v-if="option === 'acusar'" class="btn btn-info" @click="acusar">Acusar</button>
+                        <div class="card-body">
+                            <h2 class="card-title">Empieza a jugar</h2>
+                            <button href="#" class="btn btn-info" @click="createRoom">Crear sala</button>
+                            <button href="#" class="btn btn-info" @click="show = 'join'">Unirse a sala</button>
                         </div>
+                    </div>
 
+                    <div v-if="show === 'join'" class="card text-center mt-5 col d-flex justify-content-center"
+                        id="container-primary">
+
+                        <div class="card-body">
+                            <h2 class="card-title">Ingresa el codigo de la sala</h2>
+                            <input type="text" v-model="room">
+                            <button href="#" class="btn btn-info" @click="joinRoom">Unirse a sala</button>
+                            <button href="#" class="btn btn-dark" @click="show = 'principal'"> atras </button>
+                        </div>
+                    </div>
+
+                    <div v-if="show === 'salaCreada'" class="card text-center mt-5 col d-flex justify-content-center"
+                        id="container-primary">
+
+                        <div class="card-body">
+                            <h2 class="card-title">comparte el codigo de la sala con amigos: {{room}}</h2>
+                            <p>esperemos que sean 4 jugadores</p>
+                            <p>jugadores conectados: {{jugadores}}</p>
+                            <p>turno: {{turno}}</p>
+                            <button href="#" :disabled="faltanJugadores" class="btn btn-dark"
+                                @click="show = 'empezarPartida'">Empezar partida</button>
+                        </div>
+                    </div>
+
+                    <div v-if="show === 'empezarPartida'"
+                        class="card text-center mt-5 col d-flex justify-content-center" id="container-primary">
+                        <button href="#" class="btn btn-dark" @click="show = 'pregunta'; option = 'preguntar'">
+                            Preguntar
+                        </button>
+                        <button href="#" class="btn btn-dark" @click="show = 'pregunta'; option = 'acusar'">
+                            Acusar</button>
+                    </div>
+
+                    <div v-if="show === 'espera'" class="card text-center mt-5 col d-flex justify-content-center">
+                        <div class="card-body">
+                            <h2 class="card-title">Espera tu turno</h2>
+                        </div>
+                    </div>
+
+                    <!-- preguntar o acusar -->
+                    <div v-if="show === 'pregunta'" class="card text-center mt-5 col d-flex justify-content-center"
+                        id="container-primary">
+
+                        <div class="card-body">
+                            <h2 class="card-title">Seleccione su Acusacion</h2>
+                            <div class="body-acusacion">
+                                <h1 class="h1-module">El programador que cometio el error Fue:</h1>
+                                <select v-model="pregunta.quien" id="seleccion" class="container form-select"
+                                    aria-label="Default select example">
+                                    <option selected disabled>Seleccione su Personaje</option>
+                                    <option v-for="(item, index) in quien" :value="item">{{item}}</option>
+                                </select>
+                                <h1 class="h1-module">en el modulo:</h1>
+                                <select v-model="pregunta.modulo" id="seleccion" class="container form-select"
+                                    aria-label="Default select example">
+                                    <option selected disabled>Seleccione Un modulo</option>
+                                    <option v-for="(item, index) in modulo" :value="item">{{item}}</option>
+
+                                </select>
+                                <h1 class="h1-module">con el error</h1>
+                                <select v-model="pregunta.error" id="seleccion" class="container form-select"
+                                    aria-label="Default select example">
+                                    <option selected disabled>Seleccione un error:</option>
+                                    <option v-for="(item, index) in error" :value="item">{{item}}</option>
+                                </select>
+                                <br>
+                                <br>
+                                <button v-if="option === 'preguntar'" class="btn btn-info"
+                                    @click="preguntar">Preguntar</button>
+                                <button v-if="option === 'acusar'" class="btn btn-info" @click="acusar">Acusar</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
-
+        <!-- tabla de notas del jugador -->
+        <div class="row" v-if="mostrarTabla ">
+            <div class="col-8 mx-auto">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">quien</th>
+                            <th scope="col">modulo</th>
+                            <th scope="col">error</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="card in cartas2">
+                            <td><input type="checkbox" style="margin-right: 5px;">{{card.quien}}</td>
+                            <td><input type="checkbox" style="margin-right: 5px;">{{card.modulo}}</td>
+                            <td><input type="checkbox" style="margin-right: 5px;">{{card.error}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
+
     <script src="./socket.io/socket.io.js"></script>
     <script src="./js/VueCDN/vue.js"></script>
     <script src="./js/index.js"></script>

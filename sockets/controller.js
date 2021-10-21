@@ -1,4 +1,4 @@
-import { rooms, Quien, Modulo, error, turno, jugadores } from '../app.js'
+import { rooms, secreto, turno, jugadores } from '../app.js'
 
 var numClients = {};
 
