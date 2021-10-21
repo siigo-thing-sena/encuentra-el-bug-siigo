@@ -10,7 +10,7 @@ const app = new Vue({
 		room: '',
 		turno: 0,
 		jugadores: 0,
-		show: 'principal'
+		show: 'pregunta'
 	},
 	created() {
 		socket.on("connect", () => {
