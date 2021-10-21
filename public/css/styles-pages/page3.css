@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
+* {
+    padding: 0;
+    margin: 0;
+    display: flexbox;
+}
+
+
+/* background */
+
+.background {
+    background: #EFF4FD;
+    max-height: 100%;
+    width: 100%;
+}
+
+
+/* imagenes */
+
+.container-img {
+    margin-left: 160vh;
+    display: flex;
+}
+
+.container-nv {
+    background: #ffff;
+    height: fit-content;
+    max-width: 85%;
+    margin: auto;
+    border-radius: 40px;
+    text-align: center;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+
+/* titulo */
+
+.coder-title {
+    height: 50%;
+    margin-bottom: 40px;
+    font-family: 'Alfa Slab One', cursive;
+    font-size: 70px;
+    text-align: center;
+}
+
+
+
+/* input  */
+
+.coder-input {
+    border-block: 1px solid;
+    width: 80vh;
+    display: flexbox;
+}
+
+.contenedor {
+    width: 90%;
+    max-width: 1200px;
+    overflow: hidden;
+    margin: auto;
+    padding: 60px 0;
+}
+
+.container-table {
+    width: 50%;
+    max-width: 800px;
+    overflow: hidden;
+    margin: auto;
+    padding: 60px 0;
+}
+
+.coder-input input {
+    max-width: 100%;
+    height: 11vh;
+    display: flexbox;
+    margin-top: 10vh;
+    border-radius: 30px;
+    font-size: 50px;
+    text-align: center;
+    font-family: 'Alfa Slab One', cursive;
+    background-color: #EFF4FD;
+    box-shadow: 0.1px 0.1px 1px 1px;
+}
+
+
+/* button  */
+
+.coder-button {
+    margin-top: 15vh;
+    width: 50vh;
+    display: flexbox;
+    border-radius: 30px;
+    background-color: #CADDFF;
+    font-size: 30px;
+    text-align: center;
+}
+
+.coder-button h1 {
+    display: flexbox;
+    float: right;
+    margin: 10px 38% 2px 2px
+}
+
+.coder-img {
+    margin: 15px 100px 2px 2px;
+    width: 50px;
+    position: center;
+    display: flexbox;
+}
+
+.img-galeria {
+    width: 10%;
+    display: block;
+    margin-bottom: 30px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, .6);
+    cursor: pointer;
+}
+
+.contenedor-galeria {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    /* margin-top: 30px; */
+}
+
+table {
+    width: 20%;
+    border: 2px solid #000;
+}
+
+td,
+th {
+    vertical-align: middle;
+    width: 25%;
+    text-align: left;
+    border: 1px solid #000;
+    vertical-align: top;
+    caption-side: bottom;
+}
+
+th {
+    background: #eee;
+}
+
+tbody {
+    background: rgb(200, 200, 200);
+}
