@@ -13,7 +13,7 @@
 <body>
     <div class="container" id="game">
         <h1 class="text-center">Encuentra el bug</h1>
-
+        <p v-if="show === 'juego' || show === 'preguntar' ">turno: {{turno}}</p>
         <div v-if="show === 'principal'" class="card text-center mt-5 col d-flex justify-content-center">
             <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
             <div class="card-body">
@@ -22,11 +22,16 @@
             </div>
         </div>
 
+        <div v-if="show === 'espera'" class="card text-center mt-5 col d-flex justify-content-center">
+            <div class="card-body">
+                <h2 class="card-title">Espera tu turno</h2>
+            </div>
+        </div>
         <div v-if="show === 'juego'" class="card text-center mt-5 col d-flex justify-content-center">
             <div class="card-body">
                 <h2 class="card-title">Empieza a jugar</h2>
-                <button class="btn btn-info" @click="show = 'preguntar'; option = 'preguntar'">Preguntar</button>
-                <button class="btn btn-info" @click="show = 'preguntar'; option = 'acusar'">Acusar</button>
+                <button class="btn btn-info" :disabled = "desactivarBoton" @click="show = 'preguntar'; option = 'preguntar'">Preguntar</button>
+                <button class="btn btn-info" :disabled = "desactivarBoton" @click="show = 'preguntar'; option = 'acusar'">Acusar</button>
             </div>
         </div>
 

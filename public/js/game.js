@@ -1,7 +1,8 @@
 const app = new Vue({
 	el: "#game",
 	data: {
-		ganador: 'false',
+		ganador: false,
+		desactivarBoton: true,
 		show: 'principal',
 		turno: 1,
 		option: '',
@@ -18,17 +19,19 @@ const app = new Vue({
 			modulo: 'Nomina',
 			error: '404',
 		},
-		
-		jugador1: {
-			nombre: 'jugador1',
-			turno: 1,
-			tarjetas: ['Facturacion', 'Comprobante', 'contable', 'Syntax error']
-		},
-		jugador2: {
-			nombre: 'jugador2',
-			turno: 2,
-			tarjetas: ['Carlos', 'Antonio', 'Manu', 'Usuarios']
-		},
+
+		jugadores: [
+			{
+				nombre: 'jugador1',
+				turno: 1,
+				tarjetas: ['Facturacion', 'Comprobante', 'contable', 'Syntax error']
+			},
+			{
+				nombre: 'jugador2',
+				turno: 2,
+				tarjetas: ['Carlos', 'Antonio', 'Manu', 'Usuarios']
+			},
+		],
 		cartas: [
 			{
 				Id: 1,
@@ -189,18 +192,43 @@ const app = new Vue({
 	},
 	methods: {
 		startGame() {
-			this.show = 'juego'
-			while (!ganador) {
-				
-			}
+			let jugador = this.jugadores[this.turno - 1]
+			if (jugador.turno === this.turno) {
+				this.show = 'juego'
+				this.desactivarBoton = false;
+			} else this.show = 'espera'
+			
+			if(this.option === 'preguntar') {this.preguntar()}
+			if(this.option === 'acusar') {this.acusar()}
 		},
 		preguntar() {
 			this.show = 'preguntar'
 
+			for (let index = 1; index <= this.jugadores.length; index++) {
+				console.log('turno:', index);
+				if(this.turno === index) {index ++}
+				console.log('turno:', index);
+				if(index > this.jugadores.length){return}
+				let tarjetas = this.jugadores[index-1].tarjetas
+				if(tarjetas.includes(this.pregunta.quien)){console.log('tarjeta encontrada');}
+				if(tarjetas.includes(this.pregunta.modulo)){console.log('tarjeta encontrada');}
+				if(tarjetas.includes(this.pregunta.error)){console.log('tarjeta encontrada');}
+			}
 		},
 		acusar() {
 			this.show = 'preguntar'
+			console.log(this.pregunta === this.secreto);
+			if (
+				this.pregunta.quien === this.secreto.quien &&
+				this.pregunta.modulo === this.secreto.modulo &&
+				this.pregunta.error === this.secreto.error
+				) { this.ganador = true; alert('yep') }
+				alert('nope')
 
+		},
+		saltarTurno() {
+			if(this.turno === 4){ this.turno = 1}
+			else {this.turno ++}
 		}
 	},
 });
