@@ -7,7 +7,7 @@ const jugadores = {number: 0};
 const rooms = []
 const Quien = ["Pedro, Juan, Carlos, Juanita, Antonio, Carolina, Manu"];
 const Modulo = ["Nomina", "Facturación", "Recibos", "Comprobante", "contable", "Usuarios", "Contabilidad"]
-const error = ["404, Stack overflow, Memory out of range, Null pointer  , Syntax error, Encoding error"]
+const error = ["404", "Stack overflow", "Memory out of range", "Null pointer"  , "Syntax error", "Encoding error"]
 
 server.listen();
 
