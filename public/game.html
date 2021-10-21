@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuentra el bug</title>
+    <link rel="stylesheet" href="./css/Bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+    <div class="container" id="game">
+        <h1 class="text-center">Encuentra el bug</h1>
+        <p v-if="show === 'juego' || show === 'preguntar' ">turno: {{turno}}</p>
+        <div v-if="show === 'principal'" class="card text-center mt-5 col d-flex justify-content-center">
+            <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
+            <div class="card-body">
+                <h2 class="card-title">Empieza a jugar</h2>
+                <button class="btn btn-info" @click="startGame">Empezar Partida</button>
+            </div>
+        </div>
+
+        <div v-if="show === 'espera'" class="card text-center mt-5 col d-flex justify-content-center">
+            <div class="card-body">
+                <h2 class="card-title">Espera tu turno</h2>
+            </div>
+        </div>
+        <div v-if="show === 'juego'" class="card text-center mt-5 col d-flex justify-content-center">
+            <div class="card-body">
+                <h2 class="card-title">Empieza a jugar</h2>
+                <button class="btn btn-info" :disabled = "desactivarBoton" @click="show = 'preguntar'; option = 'preguntar'">Preguntar</button>
+                <button class="btn btn-info" :disabled = "desactivarBoton" @click="show = 'preguntar'; option = 'acusar'">Acusar</button>
+            </div>
+        </div>
+
+        <div v-if="show === 'preguntar'" class="card text-center mt-5 col d-flex justify-content-center">
+            <div class="card-body">
+                <h2 class="card-title">Haz la pregunta</h2>
+
+                <span>El programador </span>
+                <select v-model="pregunta.quien" class="form-select" aria-label="Default select example">
+                    <option selected disabled>nombre</option>
+                    <option v-for="(item, index) in quien" :value="item">{{item}}</option>
+
+                </select>
+                <span>en el modulo </span>
+                <select v-model="pregunta.modulo" class="form-select" aria-label="Default select example">
+                    <option selected disabled>modulo</option>
+                    <option v-for="(item, index) in modulo" :value="item">{{item}}</option>
+
+                </select>
+                <span>cometio el error </span>
+                <select v-model="pregunta.error" class="form-select" aria-label="Default select example">
+                    <option selected disabled>error</option>
+                    <option v-for="(item, index) in error" :value="item">{{item}}</option>
+
+                </select>
+                <button v-if="option === 'preguntar'" class="btn btn-info" @click="preguntar">Preguntar</button>
+                <button v-if="option === 'acusar'" class="btn btn-info" @click="acusar">Acusar</button>
+            </div>
+        </div>
+
+    </div>
+    <script src="./js/VueCDN/vue.js"></script>
+    <script src="./js/game.js"></script>
+</body>
+
+</html>

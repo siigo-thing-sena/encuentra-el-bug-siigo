@@ -2,45 +2,56 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>sockets</title>
-	<link rel="stylesheet" href="./css/Bootstrap/bootstrap.min.css" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuentra el bug</title>
+    <link rel="stylesheet" href="./css/Bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/index.css">
 </head>
-<style>
-	[v-cloak] {
-		display: none;
-	}
-
-	ul {
-		list-style: none;
-	}
-</style>
 
 <body>
-	<div v-cloak id="app" class="container">
-		<p>
-			Server Status
-			<span id="lblOnline" v-text="serverStatus"
-				:class="[serverStatus === 'online' ? 'text-success':'text-danger']"></span>
-		</p>
+    <div class="container" id="app">
+        <h1 class="text-center">Encuentra el bug</h1>
 
-		<div>
-			<h4>encuentra el bug</h4>
-				
-				
-				<button type="button" @click="createRoom" class="btn btn-sm btn-info ml-1" />Crear Sala</button>
-				<input type="text" v-model="room">
-				<button type="button" @click="createRoom" class="btn btn-sm btn-info ml-1" />Unirse Sala</button>
-				<button type="button" @click="mensajeSala" class="btn btn-sm btn-info ml-1" />mensaje Sala</button>
-		</div>
-	</div>
-	</div>
+        <div v-if="show === 'principal'" class="card text-center mt-5 col d-flex justify-content-center">
+            <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
+            <div class="card-body">
+                <h2 class="card-title">Empieza a jugar</h2>
+                <button href="#" class="btn btn-info" @click="createRoom">Crear sala</button>
+                <button href="#" class="btn btn-info" @click = "show = 'join'">Unirse a sala</button>
+            </div>
+        </div>
 
-	<script src="./socket.io/socket.io.js"></script>
-	<script src="./js/VueCDN/vue.js"></script>
-	<script src="./js/socket-client.js"></script>
+        <div v-if="show === 'join'" class="card text-center mt-5 col d-flex justify-content-center">
+            <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
+            <div class="card-body">
+                <h2 class="card-title">Ingresa el codigo de la sala</h2>
+                <input type="text" v-model="room">
+                <button href="#" class="btn btn-info" @click="joinRoom">Unirse a sala</button>
+                <button href="#" class="btn btn-dark" @click="show = 'principal'"> atras </button>
+            </div>
+        </div>
+
+        <div v-if="show === 'salaCreada'" class="card text-center mt-5 col d-flex justify-content-center">
+            <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
+            <div class="card-body">
+                <h2 class="card-title">comparte el codigo de la sala con amigos: {{room}}</h2>
+                <p>esperemos que sean 4 jugadores</p>
+                <p>jugadores conectados: {{jugadores}}</p>
+                <p>turno: {{turno}}</p>
+                <button href="#" :disabled="faltanJugadores" class="btn btn-dark" @click="show = 'empezarPartida'">Empezar partida</button>
+            </div>
+        </div>
+
+        <div v-if="show === 'empezarPartida'" class="card text-center mt-5 col d-flex justify-content-center">
+            <img src="assets/TrollFace.jpg" class="" alt="logo-sena">
+        </div>
+
+    </div>
+    <script src="./socket.io/socket.io.js"></script>
+    <script src="./js/VueCDN/vue.js"></script>
+    <script src="./js/index.js"></script>
 </body>
 
 </html>
