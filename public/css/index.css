@@ -7,15 +7,6 @@
 *{
 	display: flexbox;
 }
-.container{
-	float: right;
-}
-.container-table{
-	float: left;
-	width: 25%;
-	margin-top: 100px;
-	height: 50%;
-}
 .logo-sena{
 	max-width: 100px;
 	margin-top: 10%;
@@ -24,10 +15,12 @@
 }
 #container-primary{
 	height: 800px;
+	width: 100%;
 	background-color: rgb(148, 210, 226);
 	border-radius: 20px;
 	text-align: center;
 	display: flex;
+	float: right;
 }
 .body-acusacion{
 background-color: rgb(224, 253, 255);
