@@ -16,16 +16,18 @@
         <div class="container-primary">
             <h1 class="text-center">Encuentra el bug</h1>
             <div class="container-inicio">
-                <div v-if="show === 'principal'" class="card text-center mt-5 col d-flex justify-content-center" id="container-primary">
+                <div v-if="show === 'principal'" class="card text-center mt-5 col d-flex justify-content-center"
+                    id="container-primary">
                     <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
                     <div class="card-body">
                         <h2 class="card-title">Empieza a jugar</h2>
                         <button href="#" class="btn btn-info" @click="createRoom">Crear sala</button>
-                        <button href="#" class="btn btn-info" @click = "show = 'join'">Unirse a sala</button>
+                        <button href="#" class="btn btn-info" @click="show = 'join'">Unirse a sala</button>
                     </div>
                 </div>
-        
-                <div v-if="show === 'join'" class="card text-center mt-5 col d-flex justify-content-center" id="container-primary">
+
+                <div v-if="show === 'join'" class="card text-center mt-5 col d-flex justify-content-center"
+                    id="container-primary">
                     <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
                     <div class="card-body">
                         <h2 class="card-title">Ingresa el codigo de la sala</h2>
@@ -34,119 +36,66 @@
                         <button href="#" class="btn btn-dark" @click="show = 'principal'"> atras </button>
                     </div>
                 </div>
-        
-                <div v-if="show === 'salaCreada'" class="card text-center mt-5 col d-flex justify-content-center" id="container-primary">
+
+                <div v-if="show === 'salaCreada'" class="card text-center mt-5 col d-flex justify-content-center"
+                    id="container-primary">
                     <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
                     <div class="card-body">
                         <h2 class="card-title">comparte el codigo de la sala con amigos: {{room}}</h2>
                         <p>esperemos que sean 4 jugadores</p>
                         <p>jugadores conectados: {{jugadores}}</p>
                         <p>turno: {{turno}}</p>
-                        <button href="#" :disabled="faltanJugadores" class="btn btn-dark" @click="show = 'empezarPartida'">Empezar partida</button>
+                        <button href="#" :disabled="faltanJugadores" class="btn btn-dark"
+                            @click="show = 'empezarPartida'">Empezar partida</button>
                     </div>
                 </div>
-        
-                <div v-if="show === 'empezarPartida'" class="card text-center mt-5 col d-flex justify-content-center" id="container-primary">
+
+                <div v-if="show === 'empezarPartida'" class="card text-center mt-5 col d-flex justify-content-center"
+                    id="container-primary">
                     <br>
-                    <button href="#" class="btn btn-dark w-50" @click="show = 'pregunta'"> Preguntar </button>
-                    <button href="#" class="btn btn-dark w-50" @click="show = 'acusar'"> Acusar</button>
+                    <button href="#" class="btn btn-dark" @click="show = 'pregunta'; option = 'preguntar'"> Preguntar </button>
+                    <button href="#" class="btn btn-dark" @click="show = 'pregunta'; option = 'acusar'"> Acusar</button>
                 </div>
 
-                <!-- pregunta -->
-                <div v-if="show === 'pregunta'" class="container card text-center mt-5 col d-flex justify-content-center" id="container-primary">
-                    <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
-                    <div class="card-body">
-                        <h2 class="card-title">Seleccione su Pregunta</h2>
-                        <div class="body-acusacion">
-                          <h1 class="h1-module">El programador que cometio el error Fue:</h1> 
-                                <select name="Hola" id="seleccion" class="container form-select" aria-label="Default select example">
-                                <option value="select">Seleccione su Personaje</option>
-                                <option value="0">Pedro</option>
-                                <option value="1">Juan</option>
-                                <option value="2">Carlos</option>
-                                <option value="3">Juanita</option>
-                                <option value="4">Antonio</option>
-                                <option value="5">Carolina</option>
-                                <option value="6">Manuel</option>
-                            </select>
-                             <h1 class="h1-module">en el modulo:</h1>
-                            <select name="Hola" id="seleccion" class="container form-select" aria-label="Default select example">
-                                <option value="select">Seleccione Un modulo</option>
-                                <option value="0">Nomina</option>
-                                <option value="1">Facturación</option>
-                                <option value="2">Recibos</option>
-                                <option value="3">Comprobante Contable</option>
-                                <option value="4">Usuarios</option>
-                                <option value="5">Contabilidad</option>
-
-                            </select>
-                            <h1 class="h1-module">con el error</h1>
-                            <select name="Hola" id="seleccion" class="container form-select" aria-label="Default select example">
-                                <option value="select">Seleccione un error:</option>
-                                <option value="0">404</option>
-                                <option value="1">Stack overflow</option>
-                                <option value="2">Memory out of range</option>
-                                <option value="3">Null Pointer</option>
-                                <option value="4">Syntax Error</option>
-                                <option value="5">Ecoding error</option>
-                            </select>
-                            <br>
-                            <br>
-                        <button href="#" class="btn btn-info" @click="show= 'empezarPartida', EnviarDatos">Enviar mi Acusacion</button>
-                            
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Acusacion -->
-                <div v-if="show === 'acusar'" class="card text-center mt-5 col d-flex justify-content-center" id="container-primary">
+                <!-- preguntar o acusar -->
+                <div v-if="show === 'pregunta'" class="card text-center mt-5 col d-flex justify-content-center"
+                    id="container-primary">
                     <img src="assets/Logo-sena.png" class="card-img-top img-fluid logo-sena mx-auto" alt="logo-sena">
                     <div class="card-body">
                         <h2 class="card-title">Seleccione su Acusacion</h2>
                         <div class="body-acusacion">
-                          <h1 class="h1-module">El programador que cometio el error Fue:</h1> 
-                                <select name="Hola" id="seleccion" class="container form-select" aria-label="Default select example">
-                                <option value="select">Seleccione su Personaje</option>
-                                <option value="0">Pedro</option>
-                                <option value="1">Juan</option>
-                                <option value="2">Carlos</option>
-                                <option value="3">Juanita</option>
-                                <option value="4">Antonio</option>
-                                <option value="5">Carolina</option>
-                                <option value="6">Manuel</option>
+                            <h1 class="h1-module">El programador que cometio el error Fue:</h1>
+                            <select v-model="pregunta.quien" id="seleccion" class="container form-select"
+                                aria-label="Default select example">
+                                <option selected disabled>Seleccione su Personaje</option>
+                                <option v-for="(item, index) in quien" :value="item">{{item}}</option>
                             </select>
-                             <h1 class="h1-module">en el modulo:</h1>
-                            <select name="Hola" id="seleccion" class="container form-select" aria-label="Default select example">
-                                <option value="select">Seleccione Un modulo</option>
-                                <option value="0">Nomina</option>
-                                <option value="1">Facturación</option>
-                                <option value="2">Recibos</option>
-                                <option value="3">Comprobante Contable</option>
-                                <option value="4">Usuarios</option>
-                                <option value="5">Contabilidad</option>
+                            <h1 class="h1-module">en el modulo:</h1>
+                            <select v-model="pregunta.modulo" id="seleccion" class="container form-select"
+                                aria-label="Default select example">
+                                <option selected disabled>Seleccione Un modulo</option>
+                                <option v-for="(item, index) in modulo" :value="item">{{item}}</option>
 
                             </select>
                             <h1 class="h1-module">con el error</h1>
-                            <select name="Hola" id="seleccion" class="container form-select" aria-label="Default select example">
-                                <option value="select">Seleccione un error:</option>
-                                <option value="0">404</option>
-                                <option value="1">Stack overflow</option>
-                                <option value="2">Memory out of range</option>
-                                <option value="3">Null Pointer</option>
-                                <option value="4">Syntax Error</option>
-                                <option value="5">Ecoding error</option>
+                            <select v-model="pregunta.error" id="seleccion" class="container form-select"
+                                aria-label="Default select example">
+                                <option selected disabled>Seleccione un error:</option>
+                                <option v-for="(item, index) in error" :value="item">{{item}}</option>
                             </select>
                             <br>
                             <br>
-                        <button href="#" class="btn btn-info" @click="show= 'empezarPartida', EnviarDatos">Enviar mi Acusacion</button>
+                            <button v-if="option === 'preguntar'" class="btn btn-info"
+                                @click="preguntar">Preguntar</button>
+                            <button v-if="option === 'acusar'" class="btn btn-info" @click="acusar">Acusar</button>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
         </div>
-        
-        
+
+
 
     </div>
     <script src="./socket.io/socket.io.js"></script>

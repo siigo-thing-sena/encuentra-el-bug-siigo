@@ -1,9 +1,9 @@
 const app = new Vue({
 	el: "#game",
 	data: {
+		show: 'principal',
 		ganador: false,
 		desactivarBoton: true,
-		show: 'principal',
 		turno: 1,
 		option: '',
 		quien: ["Pedro", "Juan", "Carlos", "Juanita", "Antonio", "Carolina", "Manu"],
