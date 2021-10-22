@@ -14,11 +14,13 @@
 <body>
     <div class="container " id="app">
         <h1 class="text-center">Encuentra el bug</h1>
-        <p v-if="show === 'empezarPartida' || show === 'espera' ">turno: Jugador {{turno}}</p>
-        <!-- <div v-if = "cartasJugador" class="contenedor-galeria">
-            <img  v-for="item in cartasJugador" :src="item.imagen" :alt="item.nombre" >
-            <p v-for="item in cartasJugador">{{item.nombre}}</p>
-        </div> -->
+        <p v-if="show === 'empezarPartida' || show === 'pregunta' ">turno: Jugador {{turno}}</p>
+        <div  v-if = "cartasJugador" class="contenedor-galeria" >
+            <img  class="img" v-for="item in cartasJugador" :src="item.imagen" :alt="item.nombre" >
+            <div class="center">
+                <p class="nombre" v-for="item in cartasJugador">{{item.nombre}}</p>
+            </div>
+        </div>
         <div class="row">
             <div class="container-primary">
                 <div class="container-inicio">
@@ -34,7 +36,6 @@
 
                     <div v-if="show === 'join'" class="card text-center mt-5 col d-flex justify-content-center"
                         id="container-primary">
-
                         <div class="card-body">
                             <h2 class="card-title">Ingresa el codigo de la sala</h2>
                             <input type="text" v-model="room">
