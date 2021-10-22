@@ -3,8 +3,12 @@ const socket = io();
 const app = new Vue({
 	el: "#app",
 	data: {
-		show: 'principal',
+		show: 'salaCreada',
 		mostrarTabla: false,
+		mostrarContador:false,
+		contador:0,
+		timer:3,
+		interval:null,
 		option: '',
 		turno: 0,
 		jugadores: 0,
@@ -182,6 +186,16 @@ const app = new Vue({
 			},
 		],
 	},
+	// watch:{
+	// 	timer:(val) =>{
+	// 		if(val <= 0){
+	// 			clearInterval(this.interval)
+	// 			this.show = 'empezarPartida'
+	// 			console.log(this.show)
+	// 		}
+
+	// 	}
+	// },
 	created() {
 		socket.on("connect", () => {
 			console.log("Conectado");
@@ -202,6 +216,20 @@ const app = new Vue({
 		});
 	},
 	methods: {
+		empezarPartida(){
+			this.contador= ++this.contador;
+			if(this.contador==4){
+				this.mostrarContador=true;
+				this.interval = setInterval(()=>{
+					this.timer-=1,1000
+					if (this.timer==0) {
+						this.show='empezarPartida'						
+					}
+				},1000)
+
+			}
+
+		},
 		mensajeSala() {
 			socket.emit('sala-mensaje', this.room)
 		},
@@ -293,7 +321,11 @@ const app = new Vue({
 	computed: {
 		faltanJugadores() {
 			return this.jugadores <= 4 ? false : true
+		},
+		Temporizador(){
+
 		}
-	}
+	},
+	
 });
 

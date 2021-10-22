@@ -53,7 +53,14 @@
                             <p>jugadores conectados: {{jugadores}}</p>
                             <p>turno: {{turno}}</p>
                             <button href="#" :disabled="faltanJugadores" class="btn btn-dark"
-                                @click="show = 'empezarPartida'">Empezar partida</button>
+                               @click="empezarPartida">Empezar partida</button>
+                               <div v-if="mostrarContador">
+                                   <br>
+                                   <br> 
+                                   <h1>El juego iniciara en:</h1>
+                                <h1 id="temporizador">{{timer}}</h1>
+                            </div>
+
                         </div>
                     </div>
 
