@@ -1,8 +1,9 @@
 import { rooms, secreto, turno, jugadores, cartas } from '../app.js'
 
-var numClients = {};
+let numClients = {};
 let j1, j2, j3, j4
 let cartasFiltradas
+let turnoGlobal = 1
 
 let mezclarCartas = () => {
   cartas.sort(() => Math.random() - 0.5);
@@ -67,18 +68,93 @@ const socketController = (socket) => {
     if (turno.number === 4) { cartas = j4 }
 
     let roomData = {
-      rooms: rooms,
       jugadores: numClients[data.room],
       turno: numClients[data.room],
       secreto: secreto,
-      cartasJugador: cartas
+      cartasJugador: cartas,
+      turnoGlobal: turnoGlobal
     }
 
     callback(roomData)
     socket.to(data.room).emit('nuevo-jugador', roomData)
   });
 
-  socket.on('sala-mensaje', (room) => {
+  socket.on('pregunta-jugador', (data, callback) => {
+    if (turnoGlobal === 2) {
+      turnoGlobal = 1
+    } else { turnoGlobal++ }
+    console.log(data.pregunta);
+    let found, foundj1, foundj2, foundj3, foundj4
+
+    found = j1.find(j1 => j1.nombre === data.pregunta.quien)
+    if (found) { foundj1 = found }
+    found = j1.find(j1 => j1.nombre === data.pregunta.modulo)
+    if (found) { foundj1 = found }
+    found = j1.find(j1 => j1.nombre === data.pregunta.error)
+
+    if (found) { foundj2 = found }
+    found = j2.find(j2 => j2.nombre === data.pregunta.quien)
+    if (found) { foundj2 = found }
+    found = j2.find(j2 => j2.nombre === data.pregunta.modulo)
+    if (found) { foundj2 = found }
+    found = j2.find(j2 => j2.nombre === data.pregunta.error)
+    if (found) { foundj2 = found }
+
+    found = j3.find(j3 => j3.nombre === data.pregunta.quien)
+    if (found) { foundj3 = found }
+    found = j3.find(j3 => j3.nombre === data.pregunta.modulo)
+    if (found) { foundj3 = found }
+    found = j3.find(j3 => j3.nombre === data.pregunta.error)
+    if (found) { foundj3 = found }
+
+    found = j4.find(j4 => j4.nombre === data.pregunta.quien)
+    if (found) { foundj4 = found }
+    found = j4.find(j4 => j4.nombre === data.pregunta.modulo)
+    if (found) { foundj4 = found }
+    found = j4.find(j4 => j4.nombre === data.pregunta.error)
+    if (found) { foundj4 = found }
+
+
+    let dataGame = {
+      j1: foundj1,
+      j2: foundj2,
+      j3: foundj3,
+      j4: foundj4,
+      turnoGlobal: turnoGlobal
+    }
+    console.log(foundj2);
+
+    callback(dataGame)
+
+    socket.to(data.room).emit('fin-turno', turnoGlobal)
+  })
+
+  socket.on('acusacion-jugador', (data, callback) => {
+    if (turnoGlobal === 2) {
+      turnoGlobal = 1
+    } else { turnoGlobal++ }
+    let ganador = false
+
+    if (
+      data.pregunta.quien === secreto[2].nombre &&
+      data.pregunta.modulo === secreto[1].nombre &&
+      data.pregunta.error === secreto[0].nombre
+    ) { console.log('ganador'); ganador = true }
+    else { console.log('nope');}
+
+    let dataGame = {
+      turnoGlobal: turnoGlobal,
+      ganador: ganador
+    }
+
+    callback(dataGame)
+    if(ganador){
+      let show = 'finJuego'
+      socket.to(data.room).emit('fin-juego', show)
+    } else {
+      socket.to(data.room).emit('fin-turno', turnoGlobal)
+    }
+
   })
 
   socket.on('sala-mensaje', (room) => {

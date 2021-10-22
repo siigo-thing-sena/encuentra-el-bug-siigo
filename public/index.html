@@ -14,12 +14,11 @@
 <body>
     <div class="container " id="app">
         <h1 class="text-center">Encuentra el bug</h1>
-        <p v-if="show === 'empezarPartida' || show === 'pregunta' ">turno: Jugador {{turno}}</p>
-        <div v-if = "cartasJugador" class="contenedor-galeria" style="max-width: 300px; height: 300px;">
-            <img v-for="item in cartasJugador" :src="item.imagen" :alt="item.nombre" >
+        <p v-if="show === 'empezarPartida' || show === 'espera' ">turno: Jugador {{turno}}</p>
+        <!-- <div v-if = "cartasJugador" class="contenedor-galeria">
+            <img  v-for="item in cartasJugador" :src="item.imagen" :alt="item.nombre" >
             <p v-for="item in cartasJugador">{{item.nombre}}</p>
-            
-        </div>
+        </div> -->
         <div class="row">
             <div class="container-primary">
                 <div class="container-inicio">
@@ -28,8 +27,8 @@
 
                         <div class="card-body">
                             <h2 class="card-title">Empieza a jugar</h2>
-                            <button href="#" class="btn btn-info" @click="createRoom">Crear sala</button>
-                            <button href="#" class="btn btn-info" @click="show = 'join'">Unirse a sala</button>
+                            <button class="btn btn-info" @click="createRoom">Crear sala</button>
+                            <button class="btn btn-info" @click="show = 'join'">Unirse a sala</button>
                         </div>
                     </div>
 
@@ -39,8 +38,8 @@
                         <div class="card-body">
                             <h2 class="card-title">Ingresa el codigo de la sala</h2>
                             <input type="text" v-model="room">
-                            <button href="#" class="btn btn-info" @click="joinRoom">Unirse a sala</button>
-                            <button href="#" class="btn btn-dark" @click="show = 'principal'"> atras </button>
+                            <button class="btn btn-info" @click="joinRoom">Unirse a sala</button>
+                            <button class="btn btn-dark" @click="show = 'principal'"> atras </button>
                         </div>
                     </div>
 
@@ -51,30 +50,36 @@
                             <h2 class="card-title">comparte el codigo de la sala con amigos: {{room}}</h2>
                             <p>esperemos que sean 4 jugadores</p>
                             <p>jugadores conectados: {{jugadores}}</p>
-                            <p>turno: {{turno}}</p>
-                            <button href="#" :disabled="faltanJugadores" class="btn btn-dark"
-                                @click="show = 'empezarPartida'">Empezar partida</button>
+                            <p>turno: {{turnoJugador}}</p>
+                            <button :disabled="faltanJugadores" class="btn btn-dark" @click="iniciarJuego">Empezar
+                                partida</button>
                         </div>
                     </div>
 
-                    <div v-if="show === 'empezarPartida'"
+                    <div v-if="show === 'empezarPartida'" :key="show"
                         class="card text-center mt-5 col d-flex justify-content-center" id="container-primary">
-                        <button href="#" class="btn btn-dark" @click="show = 'pregunta'; option = 'preguntar'">
+                        <button class="btn btn-dark" @click="show = 'pregunta'; option = 'preguntar'">
                             Preguntar
                         </button>
-                        <button href="#" class="btn btn-dark" @click="show = 'pregunta'; option = 'acusar'">
+                        <button class="btn btn-dark" @click="show = 'pregunta'; option = 'acusar'">
                             Acusar</button>
                     </div>
 
-                    <div v-if="show === 'espera'" class="card text-center mt-5 col d-flex justify-content-center">
+                    <div v-if="show === 'espera'" :key="show"
+                        class="card text-center mt-5 col d-flex justify-content-center">
                         <div class="card-body">
                             <h2 class="card-title">Espera tu turno</h2>
                         </div>
+                        <button class="btn btn-dark" disabled @click="show = 'pregunta'; option = 'preguntar'">
+                            Preguntar
+                        </button>
+                        <button class="btn btn-dark" disabled @click="show = 'pregunta'; option = 'acusar'">
+                            Acusar</button>
                     </div>
 
                     <!-- preguntar o acusar -->
-                    <div v-if="show === 'pregunta'" class="card text-center mt-5 col d-flex justify-content-center"
-                        id="container-primary">
+                    <div v-if="show === 'pregunta'" :key="show"
+                        class="card text-center mt-5 col d-flex justify-content-center" id="container-primary">
 
                         <div class="card-body">
                             <h2 class="card-title">{{option}}</h2>
@@ -105,6 +110,13 @@
                                 <button v-if="option === 'acusar'" class="btn btn-info" @click="acusar">Acusar</button>
                             </div>
                         </div>
+                    </div>
+                    <div v-if="show === 'finJuego'" :key="show"
+                        class="card text-center mt-5 col d-flex justify-content-center">
+                        <div class="card-body">
+                            <h2 class="card-title">Fin del juego</h2>
+                        </div>
+                        
                     </div>
                 </div>
             </div>

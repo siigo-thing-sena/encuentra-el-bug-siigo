@@ -5,13 +5,15 @@ const app = new Vue({
 	data: {
 		show: 'principal',
 		mostrarTabla: false,
+		desactivarBoton: true,
+		esTurno: false,
 		option: '',
 		turno: 0,
+		turnoJugador: 0,
 		jugadores: 0,
 		quien: ["Pedro", "Juan", "Carlos", "Juanita", "Antonio", "Carolina", "Manu"],
-		modulo: ["Nomina", "Facturacion", "Recibos", "Comprobante", "contable", "Usuarios", "Contabilidad"],
+		modulo: ["Nomina", "Facturacion", "Recibos", "Comprobante contable", "Usuarios", "Contabilidad"],
 		error: ["404", "Stack overflow", "Memory out of range", "Null pointer", "Syntax error", "Encoding error"],
-		rooms: [],
 		room: '',
 		cartasJugador: [],
 		pregunta: {
@@ -35,7 +37,7 @@ const app = new Vue({
 				nombre: "Pedro",
 				tipo: "Quien",
 				tachado: false,
-				imagen:'../assets/SENASOFT_IMG/img_personas/Pedro.png',
+				imagen: '../assets/SENASOFT_IMG/img_personas/Pedro.png',
 			},
 
 			{
@@ -192,13 +194,23 @@ const app = new Vue({
 		});
 		socket.on("nuevo-jugador", (data) => {
 			this.jugadores = data.jugadores
-			this.rooms = data.rooms
 		});
 		socket.on("mensaje-sala", (payload) => {
 			console.log('mensaje desde sala', payload);
 		});
 		socket.on("iniciar-partida", (payload) => {
 			this.iniciarJuego();
+		});
+
+		socket.on("fin-turno", (turnoGlobal) => {
+			this.turno = turnoGlobal
+			if (this.turnoJugador === this.turno) {
+				this.show = 'empezarPartida'
+			} else this.show = 'espera'
+		});
+
+		socket.on("fin-juego", (show) => {
+			this.show = show
 		});
 	},
 	methods: {
@@ -213,52 +225,31 @@ const app = new Vue({
 				jugador: 1
 			}
 			socket.emit('create-join-room', roomData, (data) => {
-				console.log(data)
 				this.jugadores = data.jugadores
-				this.rooms = data.rooms
-				this.turno = data.turno
+				this.turnoJugador = data.turno
 				this.cartasJugador = data.cartasJugador
 				this.secreto = data.secreto
+				this.turno = data.turnoGlobal
 			});
 			this.show = "salaCreada"
 		},
 		joinRoom() {
-			if (this.turno >=4 ){
-				alert('sala llena')
-				return
-			}
 			let roomData = {
 				room: this.room,
 				jugador: 1
 			}
 			socket.emit('create-join-room', roomData, (data) => {
 				this.jugadores = data.jugadores
-				this.rooms = data.rooms
-				this.turno = data.turno
+				this.turnoJugador = data.turno
 				this.cartasJugador = data.cartasJugador
 				this.secreto = data.secreto
+				this.turno = data.turnoGlobal
 			});
 			this.show = "salaCreada"
 		},
 		iniciarJuego() {
-
-			this.mezclarCartas(this.cartas)
-			console.log(this.cartas)
-
-			const tipos = ["Error", "Modulo", "Quien"]
-			for (let i = 0; i < tipos.length; i++) {
-				let found = this.cartas.find(element => element.Tipo === tipos[i]);
-				this.secreto.push(found)
-			}
-			for (let i = 0; i < secreto.length; i++) {
-				let cartas = cartas.filter((carta) => {
-					return carta.Nombre !== this.secreto[i].Nombre;
-				});
-			}
-			let j1 = cartas.splice(0, cartas.length / 4);
-			let j2 = cartas.splice(0, cartas.length / 3);
-			let j3 = cartas.splice(0, cartas.length / 2);
-			let j4 = cartas.splice(0, cartas.length);
+			this.mostrarTabla = true
+			this.checkTurno()
 		},
 
 		mezclarCartas(cartas) {
@@ -266,34 +257,54 @@ const app = new Vue({
 		},
 
 		preguntar() {
-			this.show = 'preguntar'
-
-			for (let index = 1; index <= this.jugadores.length; index++) {
-				console.log('turno:', index);
-				if (this.turno === index) { index++ }
-				console.log('turno:', index);
-				if (index > this.jugadores.length) { return }
-				let tarjetas = this.jugadores[index - 1].tarjetas
-				if (tarjetas.includes(this.pregunta.quien)) { console.log('tarjeta encontrada'); }
-				if (tarjetas.includes(this.pregunta.modulo)) { console.log('tarjeta encontrada'); }
-				if (tarjetas.includes(this.pregunta.error)) { console.log('tarjeta encontrada'); }
+			let infoJuego = {
+				room: this.room,
+				pregunta: this.pregunta,
+				jugador: this.turnoJugador
 			}
+			let j1,j2,j3,j4
+			socket.emit('pregunta-jugador', infoJuego, async (data) => {
+				console.log(data);
+				j1 = await data.j1
+				j2 = await data.j2
+				j3 = await data.j3
+				j4 = await data.j4
+				
+				if(j1){alert('jugador 1 tiene la carta: ' + j1.nombre)}
+				if(j2){alert('jugador 2 tiene la carta: ' + j2.nombre)}
+				if(j3){alert('jugador 3 tiene la carta: ' + j3.nombre)}
+				if(j4){alert('jugador 4 tiene la carta: ' + j4.nombre)}
+				this.turno = data.turnoGlobal
+				setTimeout(() => { this.checkTurno() }, 3000)
+			})
+
+			
 		},
 		acusar() {
-			this.show = 'preguntar'
-			console.log(this.pregunta === this.secreto);
-			if (
-				this.pregunta.quien === this.secreto.quien &&
-				this.pregunta.modulo === this.secreto.modulo &&
-				this.pregunta.error === this.secreto.error
-			) { this.ganador = true; alert('yep') }
-			alert('nope')
+			let infoJuego = {
+				room: this.room,
+				pregunta: this.pregunta,
+				jugador: this.turnoJugador,
+			}
+			
+			socket.emit('acusacion-jugador', infoJuego, async (data) => {
+				this.turno = data.turnoGlobal
+				let ganador = await data.ganador
+				if (ganador){
+					this.show = 'finJuego'
+				}
+			})
 		},
+		checkTurno(){
+			if (this.turnoJugador === this.turno) {
+				this.show = 'empezarPartida'
+			} else this.show = 'espera'
+		}
 	},
 	computed: {
 		faltanJugadores() {
 			return this.jugadores <= 4 ? false : true
-		}
+		},
 	}
 });
 
