@@ -14,7 +14,12 @@
 <body>
     <div class="container " id="app">
         <h1 class="text-center">Encuentra el bug</h1>
-        <p v-if="show === 'juego' || show === 'preguntar' ">turno: {{turno}}</p>
+        <p v-if="show === 'empezarPartida' || show === 'pregunta' ">turno: Jugador {{turno}}</p>
+        <div v-if = "cartasJugador" class="contenedor-galeria" style="max-width: 300px; height: 300px;">
+            <img v-for="item in cartasJugador" :src="item.imagen" :alt="item.nombre" >
+            <p v-for="item in cartasJugador">{{item.nombre}}</p>
+            
+        </div>
         <div class="row">
             <div class="container-primary">
                 <div class="container-inicio">
@@ -72,7 +77,7 @@
                         id="container-primary">
 
                         <div class="card-body">
-                            <h2 class="card-title">Seleccione su Acusacion</h2>
+                            <h2 class="card-title">{{option}}</h2>
                             <div class="body-acusacion">
                                 <h1 class="h1-module">El programador que cometio el error Fue:</h1>
                                 <select v-model="pregunta.quien" id="seleccion" class="container form-select"

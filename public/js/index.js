@@ -6,9 +6,20 @@ const app = new Vue({
 		show: 'principal',
 		mostrarTabla: false,
 		option: '',
+		turno: 0,
+		jugadores: 0,
 		quien: ["Pedro", "Juan", "Carlos", "Juanita", "Antonio", "Carolina", "Manu"],
 		modulo: ["Nomina", "Facturacion", "Recibos", "Comprobante", "contable", "Usuarios", "Contabilidad"],
 		error: ["404", "Stack overflow", "Memory out of range", "Null pointer", "Syntax error", "Encoding error"],
+		rooms: [],
+		room: '',
+		cartasJugador: [],
+		pregunta: {
+			quien: '',
+			modulo: '',
+			error: '',
+		},
+		secreto: [],
 		cartas2: [
 			{ quien: "Pedro", modulo: "Nomina", error: "404" },
 			{ quien: "Juan", modulo: "Facturacion", error: "Stack overflow" },
@@ -18,165 +29,155 @@ const app = new Vue({
 			{ quien: "Carolina", modulo: "Usuarios", error: "Encoding error" },
 			{ quien: "Manu", modulo: "Contabilidad", error: "" },
 		],
-		rooms: [],
-		room: '',
-		turno: 0,
-		jugadores: 0,
-		pregunta: {
-			quien: '',
-			modulo: '',
-			error: '',
-		},
-		secreto: [],
 		cartas: [
 			{
-				Id: 1,
-				Nombre: "Pedro",
-				Tipo: "Quien",
-				Tachado: false,
+				id: 1,
+				nombre: "Pedro",
+				tipo: "Quien",
+				tachado: false,
 				imagen:'../assets/SENASOFT_IMG/img_personas/Pedro.png',
 			},
 
 			{
-				Id: 2,
-				Nombre: "Juan",
-				Tipo: "Quien",
-				Tachado: false,
+				id: 2,
+				nombre: "Juan",
+				tipo: "Quien",
+				tachado: false,
 				imagen: '../assets/SENASOFT_IMG/img_personas/Juan.png',
 			},
 
 			{
-				Id: 3,
-				Nombre: "Carlos",
-				Tipo: "Quien",
-				Tachado: false,
+				id: 3,
+				nombre: "Carlos",
+				tipo: "Quien",
+				tachado: false,
 				imagen: '../assets/SENASOFT_IMG/img_personas/Carlos.png',
 			},
 
 			{
-				Id: 4,
-				Nombre: "Juanita",
-				Tipo: "Quien",
-				Tachado: false,
+				id: 4,
+				nombre: "Juanita",
+				tipo: "Quien",
+				tachado: false,
 				imagen: '../assets/SENASOFT_IMG/img_personas/Juanita.png',
 			},
 			{
-				Id: 5,
-				Nombre: "Antonio",
-				Tipo: "Quien",
-				Tachado: false,
+				id: 5,
+				nombre: "Antonio",
+				tipo: "Quien",
+				tachado: false,
 				imagen: '../assets/SENASOFT_IMG/img_personas/Antonio.png',
 			},
 
 			{
-				Id: 6,
-				Nombre: "Carolina",
-				Tipo: "Quien",
-				Tachado: false,
+				id: 6,
+				nombre: "Carolina",
+				tipo: "Quien",
+				tachado: false,
 				imagen: '../assets/SENASOFT_IMG/img_personas/Carlina.png',
 			},
 
 			{
-				Id: 7,
-				Nombre: "Manu",
-				Tipo: "Quien",
-				Tachado: false,
+				id: 7,
+				nombre: "Manu",
+				tipo: "Quien",
+				tachado: false,
 				imagen: '../assets/SENASOFT_IMG/img_personas/Manu.png',
 			},
 
 			{
-				Id: 8,
-				Nombre: "Nomina",
-				Tipo: "Modulo",
-				Tachado: false,
+				id: 8,
+				nombre: "Nomina",
+				tipo: "Modulo",
+				tachado: false,
 				imagen: '../assets/SENASOFT_IMG/img_modulos/Nomina.png',
 			},
 
 			{
-				Id: 9,
-				Nombre: "Facturación",
-				Tipo: "Modulo",
-				Tachado: false,
+				id: 9,
+				nombre: "Facturación",
+				tipo: "Modulo",
+				tachado: false,
 				imagen: '../assets/SENASOFT_IMG/img_modulos/Facturación.png',
 			},
 
 			{
-				Id: 10,
-				Nombre: "Recibos",
-				Tipo: "Modulo",
-				Tachado: false,
+				id: 10,
+				nombre: "Recibos",
+				tipo: "Modulo",
+				tachado: false,
 				imagen: '../assets/SENASOFT_IMG/img_modulos/Recibos.png',
 			},
 
 			{
-				Id: 11,
-				Nombre: "Comprobante contable",
-				Tipo: "Modulo",
-				Tachado: false,
+				id: 11,
+				nombre: "Comprobante contable",
+				tipo: "Modulo",
+				tachado: false,
 				imagen: '../assets/SENASOFT_IMG/img_modulos/Comprobantecontable.png',
 			},
 
 			{
-				Id: 12,
-				Nombre: "Usuarios",
-				Tipo: "Modulo",
-				Tachado: false,
+				id: 12,
+				nombre: "Usuarios",
+				tipo: "Modulo",
+				tachado: false,
 				imagen: '../assets/SENASOFT_IMG/img_modulos/Usuarios.png',
 			},
 
 			{
-				Id: 13,
-				Nombre: "Contabilidad",
-				Tipo: "Modulo",
-				Tachado: false,
+				id: 13,
+				nombre: "Contabilidad",
+				tipo: "Modulo",
+				tachado: false,
 				imagen: '../assets/SENASOFT_IMG/img_modulos/Contabilidad.png',
 			},
 
 			{
-				Id: 14,
-				Nombre: "404",
-				Tipo: "Error",
-				Tachado: false,
+				id: 14,
+				nombre: "404",
+				tipo: "Error",
+				tachado: false,
 				imagen: '../assets/SENASOFT_IMG/img_errores/404.png',
 			},
 
 			{
-				Id: 15,
-				Nombre: "Stack overflow",
-				Tipo: "Error",
-				Tachado: false,
+				id: 15,
+				nombre: "Stack overflow",
+				tipo: "Error",
+				tachado: false,
 				imagen: '../assets/SENASOFT_IMG/img_errores/Stackoverflow.png',
 			},
 
 			{
-				Id: 16,
-				Nombre: "Memory out of range",
-				Tipo: "Error",
-				Tachado: false,
+				id: 16,
+				nombre: "Memory out of range",
+				tipo: "Error",
+				tachado: false,
 				imagen: '../assets/SENASOFT_IMG/img_errores/Memoryoutofrange.png',
 			},
 
 			{
-				Id: 17,
-				Nombre: "Null pointer",
-				Tipo: "Error",
-				Tachado: false,
+				id: 17,
+				nombre: "Null pointer",
+				tipo: "Error",
+				tachado: false,
 				imagen: '../assets/SENASOFT_IMG/img_errores/Nullpointer.png',
 			},
 
 			{
-				Id: 18,
-				Nombre: "Syntax error",
-				Tipo: "Error",
-				Tachado: false,
+				id: 18,
+				nombre: "Syntax error",
+				tipo: "Error",
+				tachado: false,
 				imagen: '../assets/SENASOFT_IMG/img_errores/Syntaxerror.png',
 			},
 
 			{
-				Id: 19,
-				Nombre: "Encoding error",
-				Tipo: "Error",
-				Tachado: false,
+				id: 19,
+				nombre: "Encoding error",
+				tipo: "Error",
+				tachado: false,
 				imagen: '../assets/SENASOFT_IMG/img_errores/Encodingerror.png',
 			},
 		],
@@ -212,13 +213,20 @@ const app = new Vue({
 				jugador: 1
 			}
 			socket.emit('create-join-room', roomData, (data) => {
+				console.log(data)
 				this.jugadores = data.jugadores
 				this.rooms = data.rooms
 				this.turno = data.turno
+				this.cartasJugador = data.cartasJugador
+				this.secreto = data.secreto
 			});
 			this.show = "salaCreada"
 		},
 		joinRoom() {
+			if (this.turno >=4 ){
+				alert('sala llena')
+				return
+			}
 			let roomData = {
 				room: this.room,
 				jugador: 1
@@ -227,12 +235,13 @@ const app = new Vue({
 				this.jugadores = data.jugadores
 				this.rooms = data.rooms
 				this.turno = data.turno
+				this.cartasJugador = data.cartasJugador
+				this.secreto = data.secreto
 			});
 			this.show = "salaCreada"
 		},
 		iniciarJuego() {
 
-			// 
 			this.mezclarCartas(this.cartas)
 			console.log(this.cartas)
 
@@ -246,7 +255,7 @@ const app = new Vue({
 					return carta.Nombre !== this.secreto[i].Nombre;
 				});
 			}
-			let j1 = cartas.splice(0, (cartas.length / 4));
+			let j1 = cartas.splice(0, cartas.length / 4);
 			let j2 = cartas.splice(0, cartas.length / 3);
 			let j3 = cartas.splice(0, cartas.length / 2);
 			let j4 = cartas.splice(0, cartas.length);
