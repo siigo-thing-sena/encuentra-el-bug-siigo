@@ -216,23 +216,23 @@ const app = new Vue({
 
 		socket.on("fin-juego", (show) => {
 			this.show = show
+			this.mostrarTabla = false
 		});
 	},
 	methods: {
-		empezarPartida(){
-			this.contador= ++this.contador;
-			if(this.contador==4){
-				this.mostrarContador=true;
-				this.interval = setInterval(()=>{
-					this.timer-=1,1000
-					if (this.timer==0) {
-						this.show='empezarPartida'						
-					}
-				},1000)
+		// empezarPartida(){
+		// 	this.contador= ++this.contador;
+		// 	if(this.contador==4){
+		// 		this.mostrarContador=true;
+		// 		this.interval = setInterval(()=>{
+		// 			this.timer-=1,1000
+		// 			if (this.timer==0) {
+		// 				this.show='empezarPartida'						
+		// 			}
+		// 		},1000)
+		// 	}
 
-			}
-
-		},
+		// },
 		mensajeSala() {
 			socket.emit('sala-mensaje', this.room)
 		},
@@ -294,6 +294,11 @@ const app = new Vue({
 				if(j3){alert('jugador 3 tiene la carta: ' + j3.nombre)}
 				if(j4){alert('jugador 4 tiene la carta: ' + j4.nombre)}
 				this.turno = data.turnoGlobal
+				this.pregunta =  {
+					quien: '',
+					modulo: '',
+					error: '',
+				},
 				setTimeout(() => { this.checkTurno() }, 3000)
 			})
 
@@ -311,6 +316,16 @@ const app = new Vue({
 				let ganador = await data.ganador
 				if (ganador){
 					this.show = 'finJuego'
+					this.mostrarTabla = false
+				} else {
+					alert('No acertaste')
+					this.pregunta =  {
+						quien: '',
+						modulo: '',
+						error: '',
+					},
+					setTimeout(() => { this.checkTurno() }, 3000)
+
 				}
 			})
 		},
@@ -322,7 +337,7 @@ const app = new Vue({
 	},
 	computed: {
 		faltanJugadores() {
-			return this.jugadores <= 4 ? false : true
+			return this.jugadores >= 2 ? false : true
 		},
 	}
 });

@@ -15,8 +15,8 @@
     <div class="container " id="app">
         <h1 class="text-center">Encuentra el bug</h1>
         <p v-if="show === 'empezarPartida' || show === 'pregunta' ">turno: Jugador {{turno}}</p>
-        <div  v-if = "cartasJugador" class="contenedor-galeria" >
-            <img  class="img" v-for="item in cartasJugador" :src="item.imagen" :alt="item.nombre" >
+        <div v-if="cartasJugador" class="contenedor-galeria">
+            <img class="img" v-for="item in cartasJugador" :src="item.imagen" :alt="item.nombre">
             <div class="center">
                 <p class="nombre" v-for="item in cartasJugador">{{item.nombre}}</p>
             </div>
@@ -53,84 +53,83 @@
                             <p>jugadores conectados: {{jugadores}}</p>
 
                             <p>turno: {{turnoJugador}}</p>
-                            <button :disabled="faltanJugadores" class="btn btn-dark"
-                               @click="empezarPartida">Empezar partida</button>
-                               <div v-if="mostrarContador">
+                            <button :disabled="faltanJugadores" class="btn btn-dark" @click="iniciarJuego">Empezar
+                                partida</button>
+                            <!-- <div v-if="mostrarContador">
                                    <br>
                                    <br> 
                                    <h1>El juego iniciara en:</h1>
-                                <h1 id="temporizador">{{timer}}</h1>
-                            </div>
+                                <h1 id="temporizador">{{timer}}</h1> -->
                         </div>
                     </div>
+                </div>
 
-                    <div v-if="show === 'empezarPartida'" :key="show"
-                        class="card text-center mt-5 col d-flex justify-content-center" id="container-primary">
-                        <button class="btn btn-dark" @click="show = 'pregunta'; option = 'preguntar'">
-                            Preguntar
-                        </button>
-                        <button class="btn btn-dark" @click="show = 'pregunta'; option = 'acusar'">
-                            Acusar</button>
+                <div v-if="show === 'empezarPartida'" :key="show"
+                    class="card text-center mt-5 col d-flex justify-content-center" id="container-primary">
+                    <button class="btn btn-dark" @click="show = 'pregunta'; option = 'preguntar'">
+                        Preguntar
+                    </button>
+                    <button class="btn btn-dark" @click="show = 'pregunta'; option = 'acusar'">
+                        Acusar</button>
+                </div>
+
+                <div v-if="show === 'espera'" :key="show"
+                    class="card text-center mt-5 col d-flex justify-content-center">
+                    <div class="card-body">
+                        <h2 class="card-title">Espera tu turno</h2>
                     </div>
+                    <button class="btn btn-dark" disabled @click="show = 'pregunta'; option = 'preguntar'">
+                        Preguntar
+                    </button>
+                    <button class="btn btn-dark" disabled @click="show = 'pregunta'; option = 'acusar'">
+                        Acusar</button>
+                </div>
 
-                    <div v-if="show === 'espera'" :key="show"
-                        class="card text-center mt-5 col d-flex justify-content-center">
-                        <div class="card-body">
-                            <h2 class="card-title">Espera tu turno</h2>
+                <!-- preguntar o acusar -->
+                <div v-if="show === 'pregunta'" :key="show"
+                    class="card text-center mt-5 col d-flex justify-content-center" id="container-primary">
+
+                    <div class="card-body">
+                        <h2 class="card-title">{{option}}</h2>
+                        <div class="body-acusacion">
+                            <h1 class="h1-module">El programador que cometio el error Fue:</h1>
+                            <select v-model="pregunta.quien" id="seleccion" class="container form-select"
+                                aria-label="Default select example">
+                                <option selected disabled>Seleccione su Personaje</option>
+                                <option v-for="(item, index) in quien" :value="item">{{item}}</option>
+                            </select>
+                            <h1 class="h1-module">en el modulo:</h1>
+                            <select v-model="pregunta.modulo" id="seleccion" class="container form-select"
+                                aria-label="Default select example">
+                                <option selected disabled>Seleccione Un modulo</option>
+                                <option v-for="(item, index) in modulo" :value="item">{{item}}</option>
+
+                            </select>
+                            <h1 class="h1-module">con el error</h1>
+                            <select v-model="pregunta.error" id="seleccion" class="container form-select"
+                                aria-label="Default select example">
+                                <option selected disabled>Seleccione un error:</option>
+                                <option v-for="(item, index) in error" :value="item">{{item}}</option>
+                            </select>
+                            <br>
+                            <br>
+                            <button v-if="option === 'preguntar'" class="btn btn-info"
+                                @click="preguntar">Preguntar</button>
+                            <button v-if="option === 'acusar'" class="btn btn-info" @click="acusar">Acusar</button>
                         </div>
-                        <button class="btn btn-dark" disabled @click="show = 'pregunta'; option = 'preguntar'">
-                            Preguntar
-                        </button>
-                        <button class="btn btn-dark" disabled @click="show = 'pregunta'; option = 'acusar'">
-                            Acusar</button>
+                    </div>
+                </div>
+                <div v-if="show === 'finJuego'" :key="show"
+                    class="card text-center mt-5 col d-flex justify-content-center">
+                    <div class="card-body">
+                        <h2 class="card-title">Fin del juego</h2>
                     </div>
 
-                    <!-- preguntar o acusar -->
-                    <div v-if="show === 'pregunta'" :key="show"
-                        class="card text-center mt-5 col d-flex justify-content-center" id="container-primary">
-
-                        <div class="card-body">
-                            <h2 class="card-title">{{option}}</h2>
-                            <div class="body-acusacion">
-                                <h1 class="h1-module">El programador que cometio el error Fue:</h1>
-                                <select v-model="pregunta.quien" id="seleccion" class="container form-select"
-                                    aria-label="Default select example">
-                                    <option selected disabled>Seleccione su Personaje</option>
-                                    <option v-for="(item, index) in quien" :value="item">{{item}}</option>
-                                </select>
-                                <h1 class="h1-module">en el modulo:</h1>
-                                <select v-model="pregunta.modulo" id="seleccion" class="container form-select"
-                                    aria-label="Default select example">
-                                    <option selected disabled>Seleccione Un modulo</option>
-                                    <option v-for="(item, index) in modulo" :value="item">{{item}}</option>
-
-                                </select>
-                                <h1 class="h1-module">con el error</h1>
-                                <select v-model="pregunta.error" id="seleccion" class="container form-select"
-                                    aria-label="Default select example">
-                                    <option selected disabled>Seleccione un error:</option>
-                                    <option v-for="(item, index) in error" :value="item">{{item}}</option>
-                                </select>
-                                <br>
-                                <br>
-                                <button v-if="option === 'preguntar'" class="btn btn-info"
-                                    @click="preguntar">Preguntar</button>
-                                <button v-if="option === 'acusar'" class="btn btn-info" @click="acusar">Acusar</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div v-if="show === 'finJuego'" :key="show"
-                        class="card text-center mt-5 col d-flex justify-content-center">
-                        <div class="card-body">
-                            <h2 class="card-title">Fin del juego</h2>
-                        </div>
-                        
-                    </div>
                 </div>
             </div>
         </div>
         <!-- tabla de notas del jugador -->
-        <div class="row" v-if="mostrarTabla ">
+        <div class="row" v-if="mostrarTabla">
             <div class="col-8 mx-auto">
                 <table class="table">
                     <thead class="thead-dark">

@@ -22,9 +22,7 @@ let filtrarSecreto = () => {
     cartasFiltradas = cartasFiltradas.filter((carta) => {
       return carta.nombre !== secreto[i].nombre;
     });
-    console.log(cartasFiltradas.length);
   }
-  console.log(secreto.length);
 }
 
 let repartirCartas = () => {
@@ -83,7 +81,6 @@ const socketController = (socket) => {
     if (turnoGlobal === 2) {
       turnoGlobal = 1
     } else { turnoGlobal++ }
-    console.log(data.pregunta);
     let found, foundj1, foundj2, foundj3, foundj4
 
     found = j1.find(j1 => j1.nombre === data.pregunta.quien)
@@ -122,8 +119,6 @@ const socketController = (socket) => {
       j4: foundj4,
       turnoGlobal: turnoGlobal
     }
-    console.log(foundj2);
-
     callback(dataGame)
 
     socket.to(data.room).emit('fin-turno', turnoGlobal)
