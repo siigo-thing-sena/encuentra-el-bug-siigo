@@ -3,7 +3,7 @@ const socket = io();
 const app = new Vue({
 	el: "#app",
 	data: {
-		show: 'salaCreada',
+		show: 'principal',
 		mostrarTabla: false,
 		mostrarContador:false,
 		contador:0,
