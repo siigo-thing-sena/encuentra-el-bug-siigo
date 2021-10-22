@@ -7,6 +7,10 @@ const app = new Vue({
 		mostrarTabla: false,
 		desactivarBoton: true,
 		esTurno: false,
+		mostrarContador:false,
+		contador:0,
+		timer:3,
+		interval:null,
 		option: '',
 		turno: 0,
 		turnoJugador: 0,
@@ -184,6 +188,7 @@ const app = new Vue({
 			},
 		],
 	},
+	
 	created() {
 		socket.on("connect", () => {
 			console.log("Conectado");
@@ -214,6 +219,20 @@ const app = new Vue({
 		});
 	},
 	methods: {
+		empezarPartida(){
+			this.contador= ++this.contador;
+			if(this.contador==4){
+				this.mostrarContador=true;
+				this.interval = setInterval(()=>{
+					this.timer-=1,1000
+					if (this.timer==0) {
+						this.show='empezarPartida'						
+					}
+				},1000)
+
+			}
+
+		},
 		mensajeSala() {
 			socket.emit('sala-mensaje', this.room)
 		},

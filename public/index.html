@@ -51,9 +51,16 @@
                             <h2 class="card-title">comparte el codigo de la sala con amigos: {{room}}</h2>
                             <p>esperemos que sean 4 jugadores</p>
                             <p>jugadores conectados: {{jugadores}}</p>
+
                             <p>turno: {{turnoJugador}}</p>
-                            <button :disabled="faltanJugadores" class="btn btn-dark" @click="iniciarJuego">Empezar
-                                partida</button>
+                            <button :disabled="faltanJugadores" class="btn btn-dark"
+                               @click="empezarPartida">Empezar partida</button>
+                               <div v-if="mostrarContador">
+                                   <br>
+                                   <br> 
+                                   <h1>El juego iniciara en:</h1>
+                                <h1 id="temporizador">{{timer}}</h1>
+                            </div>
                         </div>
                     </div>
 
