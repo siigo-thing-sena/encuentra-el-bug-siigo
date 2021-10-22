@@ -35,5 +35,5 @@
 - Bootstrap
 - VueJS CDN
 
-# Contenerización (Plus adicional para docker, doble plus para kubernetes)
+# Contenerización
 - No usamos contenerizacion
